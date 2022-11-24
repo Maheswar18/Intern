@@ -12,12 +12,11 @@ var ema=[];
 
 function datagetter()
 {
-    var arr=[]
-    var  ema=[];
+   
     
     
     var d=document.querySelector('ul');
-    for(var i=0;i<arr.length;i++)
+    for(var i=0;i<window.arr.length;i++)
     {var dl=document.createElement('li');
 var hp=document.createTextNode(arr[i]);
 dl.appendChild(hp);
@@ -111,12 +110,16 @@ function validateForm() {
       if(age.length==0){ageerr=true;  printError("ageErr", "plz selct age");}
        if(age<18){ageerr=true;  printError("ageErr", "age should be greater than 18");}
    
-   
+   if((nameErr || emailErr || mobileErr|| ageerr) != true) {
+       window.arr.push(name);
+       datagetter()
+    
+    } 
     // Prevent the form from being submitted if there are any errors
     if((nameErr || emailErr || mobileErr|| ageerr) == true) {
        return false;
     } 
-    window.arr.push(name);
+    
 
    
 };
