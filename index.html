@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Form validation</title>
+<link rel="stylesheet" href="style.css">
+
+<script>
+
+
+
+function datagetter()
+{
+    var arr=[]
+    var  ema=[];
+    var rd = localStorage.getItem("name");
+    var arr= JSON.parse(rd);
+    
+    console.log(arr);
+    var d=document.querySelector('ul');
+    for(var i=0;i<arr.length;i++)
+    {var dl=document.createElement('li');
+var hp=document.createTextNode(arr[i]);
+dl.appendChild(hp);
+d.appendChild(dl);
+}
+}
+    
+ 
+
+// Defining a function to display error message
+
+
+
+
+function printError(elemId, hintMsg) {
+    document.getElementById(elemId).innerHTML = hintMsg;
+}
+
+
+ function ag(event)
+    {
+        var tc=document.querySelector('.row')
+        var d=event.target.value;
+        var today = new Date();
+    var birthDate = new Date(d);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    tc.value=age;
+    console.log(age);
+
+    }
+// Defining a function to validate form 
+function validateForm() {
+
+    // Retrieving the values of form elements 
+    var name = document.contactForm.name.value;
+    var email = document.contactForm.email.value;
+    var mobile = document.contactForm.mobile.value;
+    var age=document.contactForm.age.value;console.log(age)    
+	// Defining error variables with a default value
+    var nameErr = emailErr = mobileErr = true;
+    
+    // Validate name
+    if(name == "") {
+        printError("nameErr", "Please enter your name");
+    } else {
+        var regex = /^[a-zA-Z\s]+$/;                
+        if(regex.test(name) === false || name.length<3 || name.length>10) {
+            printError("nameErr", "Please enter a valid name");
+        } else {
+            printError("nameErr", "");
+            nameErr = false;
+           var rd = localStorage.getItem("name");
+    var arr= JSON.parse(rd);
+    var ema=[]
+    console.log(arr);
+    arr.push(name);
+    
+    console.log(arr);
+    localStorage.setItem("name", JSON.stringify(arr));//store in local storage names 
+        }
+    }
+    
+    // Validate email address
+    if(email == "") {
+        printError("emailErr", "Please enter your email address");
+    } else {
+        // Regular expression for basic email validation
+
+        var regex = /^\S+@\S+\.\S+$/;
+        if(ema.includes(email)){printError("emailErr", "email exists");}
+        else if(regex.test(email) === false) {
+            printError("emailErr", "Please enter a valid email address");
+        } else{
+            printError("emailErr", "");
+
+            emailErr = false;
+        }
+    }
+    
+
+    // Validate mobile number
+    if(mobile == "") {
+        printError("mobileErr", "");mobileErr = false;
+    } else {
+        var regex = /^[1-9]\d{9}$/;
+        if(regex.test(mobile) === false  ) {
+            printError("mobileErr", "Please enter a valid 10 digit mobile number");
+        } else{
+            printError("mobileErr", "");
+            mobileErr = false;
+        }
+    }
+
+    ageerr=false;
+   var d=age;
+           var today = new Date();
+       var birthDate = new Date(d);
+       var age = today.getFullYear() - birthDate.getFullYear();
+       var m = today.getMonth() - birthDate.getMonth();
+       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+           age--;
+       }
+   
+      if(age.length==0){ageerr=true;  printError("ageErr", "plz selct age");}
+       if(age<18){ageerr=true;  printError("ageErr", "age should be greater than 18");}
+   
+   
+    // Prevent the form from being submitted if there are any errors
+    if((nameErr || emailErr || mobileErr|| ageerr) == true) {
+       return false;
+    } 
+
+   
+};
+</script>
+</head>
+<body  onload="datagetter()">
+    <div class="left">
+user register
+<ul class='left12'><li>lp</li></ul>
+    
+</div>
+
+    <div class="right">
+<form name="contactForm" onsubmit="return validateForm()" action="in.php" method="post">
+    <h2>Application Form</h2>
+    <div class="row">
+        <label>Full Name</label>
+        <input type="text" name="name">
+        <div class="error" id="nameErr"></div>
+    </div>
+    <div class="row">
+        <label>Email Address</label>
+        <input type="text" name="email">
+        <div class="error" id="emailErr"></div>
+    </div>
+    <div class="row">
+        <label>Mobile Number</label>
+        <input type="text" name="mobile" maxlength="10">
+        <div class="error" id="mobileErr"></div>
+    </div>
+  <div class="row r1">
+    <div class="in">
+        <label>AGE</label>
+        <input type="date" name="age" class='age1'maxlength="10" style="width:90%" onchange="ag(event)"></div>
+       <div class="in"> <label>AGE IN YEARS</label>
+        <input type='text' name='age11' class='age11' style="width: 40px" value="0" disabled="true"></div>
+        
+    </div>
+    <div class="error" id="ageErr"></div>
+    <div class="row">
+        <input type="submit" value="Submit">
+    </div>
+
+</form>
+</div>
+
+
+</body>
+</html>
