@@ -88,12 +88,13 @@ function validateForm() {
     
 
     // Validate mobile number
-    if(mobile == "") {
+  if(mobile == "") {
         printError("mobileErr", "");mobileErr = false;
     } else {
-        
-            printError("mobileErr", "");
-            mobileErr = false;
+            if(mobile.length!=10)
+           { printError("mobileErr", "length should be 10 or null");}
+       else
+           { mobileErr = false;}
         
     }
 
